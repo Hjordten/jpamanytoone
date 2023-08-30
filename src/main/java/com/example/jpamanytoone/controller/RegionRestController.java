@@ -25,6 +25,7 @@ public class RegionRestController {
     RegionRepository regionRepository;
 
 
+    //-----------------------------------------------------------------------------------------------------GET MAPPING-------------------------------------------------------------------------------------------------//
     @GetMapping("/regioner")
     public ResponseEntity<Object> getRegioner() {
         List<Region> listRegioner = apiServiceGetRegioner.getRegioner();
@@ -37,7 +38,6 @@ public class RegionRestController {
         return ResponseEntity.ok(listRegioner);
     }
 
-    //-----------------------------------------------------------------------------------------------------GET MAPPING-------------------------------------------------------------------------------------------------//
     @GetMapping("/region/kode/{kode}")
     public ResponseEntity<List<Region>> searchRegionByKode(@PathVariable String kode) {
         List<Region> regions = regionRepository.getRegionsByKode(kode);
