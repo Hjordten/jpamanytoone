@@ -13,4 +13,7 @@ public interface RegionRepository extends JpaRepository<Region, String> {
     @Query("SELECT p FROM Region p WHERE p.navn LIKE CONCAT('%', :query, '%')")
     List<Region> getRegionsByName(String query);
 
+    Region findByKode(String kode);
+
+    Region findByNavn(String navn);
 }

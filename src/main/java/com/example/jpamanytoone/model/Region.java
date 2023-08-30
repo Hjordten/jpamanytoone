@@ -1,6 +1,7 @@
 package com.example.jpamanytoone.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -15,7 +16,7 @@ public class Region {
     private String navn;
     private String href;
 
-    @OneToMany(mappedBy = "region")
+    @OneToMany(mappedBy = "region", cascade = CascadeType.ALL)
     @JsonBackReference
     private Set<Kommune> kommuner = new HashSet<>();
 
@@ -43,5 +44,8 @@ public class Region {
 
     public String getHref() {
         return href;
+    }
+
+    public void setId(String id) {
     }
 }

@@ -45,7 +45,7 @@ public class KommuneRestController {
         return kommuneRepository.save(existingKommune);
     }
 
-    @PostMapping("/kommune")
+    @PostMapping("/kommune/indsæt")
     @ResponseStatus(HttpStatus.CREATED)
     public Kommune postKommune(@RequestBody Kommune kommune) {
         System.out.println(kommune);
