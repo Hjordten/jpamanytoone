@@ -2,6 +2,7 @@ package com.example.jpamanytoone.controller;
 
 import com.example.jpamanytoone.error.customError.BadRequest;
 import com.example.jpamanytoone.error.customError.InternalServerError;
+import com.example.jpamanytoone.model.Kommune;
 import com.example.jpamanytoone.model.Region;
 import com.example.jpamanytoone.repository.RegionRepository;
 import com.example.jpamanytoone.service.ApiServiceGetRegioner;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -38,9 +40,21 @@ public class RegionRestController {
         return ResponseEntity.ok(listRegioner);
     }
 
+
+    @GetMapping("/region/{kode}/kommuner")
+    public ResponseEntity<List<String>> getRegionersKommuner(@PathVariable String kode){
+        List<String> kommuneNavne = apiServiceGetRegioner.findKommuner(kode);
+
+        if (kommuneNavne.isEmpty()){
+            throw new InternalServerError("There are no kommuner associated with the desired region kode \n Entered value" + kode);
+        }
+
+        return ResponseEntity.ok(kommuneNavne);
+    }
+
     @GetMapping("/region/kode/{kode}")
     public ResponseEntity<List<Region>> searchRegionByKode(@PathVariable String kode) {
-        List<Region> regions = regionRepository.getRegionsByKode(kode);
+        List<Region> regions = apiServiceGetRegioner.searchRegionByKode(kode);
 
         if (regions.isEmpty()) {
             throw new InternalServerError("No region with desired kode exists");

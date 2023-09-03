@@ -21,6 +21,13 @@ public class Region {
     private Set<Kommune> kommuner = new HashSet<>();
 
 
+    public void setKommuner(Set<Kommune> kommuner) {
+        this.kommuner = kommuner;
+    }
+
+    public Set<Kommune> getKommuner() {
+        return kommuner;
+    }
 
     public void setKode(String kode) {
         this.kode = kode;
