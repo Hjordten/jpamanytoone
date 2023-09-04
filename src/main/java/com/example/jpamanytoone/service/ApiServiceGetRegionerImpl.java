@@ -62,4 +62,9 @@ public class ApiServiceGetRegionerImpl implements ApiServiceGetRegioner {
         return regions;
     }
 
+    @Override
+    public void save(Region region) {
+        regionRepository.save(region);
+    }
+
 }

@@ -109,12 +109,15 @@ public class RegionRestController {
             throw new EntityNotFoundException("Region with navn " + navn + " not found");
         }
 
-        existingRegion.setNavn(updatedRegion.getNavn());
+        existingRegion.setNavn(updatedRegion.getNavn()); // Update the navn attribute with the new value
+        existingRegion.setHref(updatedRegion.getHref());
+        existingRegion.setId(updatedRegion.getKode());
 
         Region savedRegion = regionRepository.save(existingRegion);
 
         return ResponseEntity.ok(savedRegion);
     }
+
 
     @PutMapping("/region/opdatermedkode/{kode}")
     public ResponseEntity<String> updateRegionByKode(@PathVariable String kode, @RequestBody Region updatedRegion) {
@@ -140,6 +143,8 @@ public class RegionRestController {
         if (region.getKode() == null || region.getNavn() == null || region.getHref() == null) {
             throw new BadRequest("Required fields are missing");
         }
+
+        apiServiceGetRegioner.save(region);
         return ResponseEntity.ok("New entry was successfully added");
     }
 

@@ -15,4 +15,5 @@ public interface ApiServiceGetRegioner {
     List<Region> searchRegionByKode(String kode);
 
 
+    void save(Region region);
 }
