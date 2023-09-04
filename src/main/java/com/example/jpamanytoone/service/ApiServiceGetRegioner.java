@@ -14,6 +14,13 @@ public interface ApiServiceGetRegioner {
 
     List<Region> searchRegionByKode(String kode);
 
+    List<Region> getRegionsByName(String navn);
 
-    void save(Region region);
+    Region save(Region region);
+
+    Region findByKode(String kode);
+
+    Region delete(Region region);
+
+    Region findByNavn(String navn);
 }

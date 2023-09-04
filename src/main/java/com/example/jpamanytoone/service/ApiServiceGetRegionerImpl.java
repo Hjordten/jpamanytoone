@@ -63,8 +63,33 @@ public class ApiServiceGetRegionerImpl implements ApiServiceGetRegioner {
     }
 
     @Override
-    public void save(Region region) {
+    public Region save(Region region) {
         regionRepository.save(region);
+        return region;
+    }
+
+    @Override
+    public List<Region> getRegionsByName(String navn) {
+        List<Region> regionList = regionRepository.getRegionsByName(navn);
+        return regionList;
+    }
+
+    @Override
+    public Region findByKode(String kode) {
+        Region region = regionRepository.findByKode(kode);
+        return region;
+    }
+
+    @Override
+    public Region delete(Region region) {
+        regionRepository.delete(region);
+        return region;
+    }
+
+    @Override
+    public Region findByNavn(String navn) {
+        Region region = regionRepository.findByNavn(navn);
+        return region;
     }
 
 }

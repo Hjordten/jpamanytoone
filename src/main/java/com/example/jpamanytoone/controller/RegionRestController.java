@@ -2,9 +2,7 @@ package com.example.jpamanytoone.controller;
 
 import com.example.jpamanytoone.error.customError.BadRequest;
 import com.example.jpamanytoone.error.customError.InternalServerError;
-import com.example.jpamanytoone.model.Kommune;
 import com.example.jpamanytoone.model.Region;
-import com.example.jpamanytoone.repository.RegionRepository;
 import com.example.jpamanytoone.service.ApiServiceGetRegioner;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +21,6 @@ public class RegionRestController {
 
     @Autowired
     ApiServiceGetRegioner apiServiceGetRegioner;
-    @Autowired
-    RegionRepository regionRepository;
 
 
     //-----------------------------------------------------------------------------------------------------GET MAPPING-------------------------------------------------------------------------------------------------//
@@ -48,6 +44,7 @@ public class RegionRestController {
         if (kommuneNavne.isEmpty()){
             throw new InternalServerError("There are no kommuner associated with the desired region kode \n Entered value" + kode);
         }
+        apiServiceGetRegioner.findByKode(kode);
 
         return ResponseEntity.ok(kommuneNavne);
     }
@@ -66,11 +63,13 @@ public class RegionRestController {
 
     @GetMapping("/region/navn/{navn}")
     public ResponseEntity<List<Region>> searchRegionByNavn(@PathVariable String navn) {
-        List<Region> regions = regionRepository.getRegionsByName(navn);
+        List<Region> regions = apiServiceGetRegioner.getRegionsByName(navn);
 
         if (regions.isEmpty()) {
             throw new InternalServerError("No region with desired name");
         }
+
+        apiServiceGetRegioner.findByNavn(navn);
 
         return ResponseEntity.ok(regions);
     }
@@ -79,31 +78,31 @@ public class RegionRestController {
 
     @DeleteMapping("/region/sletmedkode/{kode}")
     public ResponseEntity<String> deleteRegionByKode(@PathVariable String kode) {
-        Region region = regionRepository.findByKode(kode);
+        Region region = apiServiceGetRegioner.findByKode(kode);
 
         if (region == null) {
             throw new InternalServerError("No region with the desired kode or name exists");
         }
-        regionRepository.delete(region);
+        apiServiceGetRegioner.delete(region);
         return ResponseEntity.ok("Region with " + kode + " deleted successfully");
     }
 
     @DeleteMapping("/region/sletmednavn/{navn}")
     public ResponseEntity<String> deleteRegionByNavn(@PathVariable String navn) {
-        Region region = regionRepository.findByNavn(navn);
+        Region region = apiServiceGetRegioner.findByNavn(navn);
 
         if (region == null) {
             throw new InternalServerError("No region with the desired kode or name exists");
         }
 
-        regionRepository.delete(region);
+        apiServiceGetRegioner.delete(region);
         return ResponseEntity.ok("Region " + navn + " deleted successfully");
     }
 
     //-----------------------------------------------------------------------------------------------------PUT MAPPING-------------------------------------------------------------------------------------------------//
     @PutMapping("/region/opdatermednavn/{navn}")
     public ResponseEntity<Region> updateRegion(@PathVariable String navn, @RequestBody Region updatedRegion) {
-        Region existingRegion = regionRepository.findByNavn(navn);
+        Region existingRegion = apiServiceGetRegioner.findByNavn(navn);
 
         if (existingRegion == null) {
             throw new EntityNotFoundException("Region with navn " + navn + " not found");
@@ -113,7 +112,7 @@ public class RegionRestController {
         existingRegion.setHref(updatedRegion.getHref());
         existingRegion.setId(updatedRegion.getKode());
 
-        Region savedRegion = regionRepository.save(existingRegion);
+        Region savedRegion = apiServiceGetRegioner.save(existingRegion);
 
         return ResponseEntity.ok(savedRegion);
     }
@@ -121,7 +120,7 @@ public class RegionRestController {
 
     @PutMapping("/region/opdatermedkode/{kode}")
     public ResponseEntity<String> updateRegionByKode(@PathVariable String kode, @RequestBody Region updatedRegion) {
-        Region existingRegion = regionRepository.findByKode(kode);
+        Region existingRegion = apiServiceGetRegioner.findByKode(kode);
 
         if (existingRegion == null) {
             throw new InternalServerError("No region with desired kode exists");
@@ -132,7 +131,7 @@ public class RegionRestController {
         existingRegion.setId(kode);
 
 
-        regionRepository.save(existingRegion);
+        apiServiceGetRegioner.save(existingRegion);
 
         return ResponseEntity.ok("Database entry successfully updated");
     }
