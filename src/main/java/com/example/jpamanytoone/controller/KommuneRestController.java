@@ -19,20 +19,18 @@ public class KommuneRestController {
 
     @Autowired
     ApiServiceGetKommuner apiServiceGetKommuner;
-    @Autowired
-    KommuneRepository kommuneRepository;
 
     //-----------------------------------------------------------------------------------------------------GET MAPPING-------------------------------------------------------------------------------------------------//
 
     @GetMapping("/kommuner")
-    public List<Kommune> getKommuner() {
+    public ResponseEntity<Object> getKommuner() {
         List<Kommune> listKommuner = apiServiceGetKommuner.getKommuner();
-        return listKommuner;
+        return ResponseEntity.ok(listKommuner);
     }
 
     @GetMapping("/kommune/kode/{kode}")
     public ResponseEntity<List<Kommune>> searchKommuneByKode(@PathVariable String kode) {
-        List<Kommune> kommuner = kommuneRepository.findByKode(kode);
+        List<Kommune> kommuner = apiServiceGetKommuner.findByKode(kode);
 
         if (kommuner.isEmpty()){
             throw new InternalServerError("No matches for kommuner with the entered value: " + kode);
@@ -42,7 +40,7 @@ public class KommuneRestController {
 
     @GetMapping("/kommune/navn/{navn}")
     public ResponseEntity<List<Kommune>> searchKommuneByPartialNavn(@PathVariable String navn) {
-        List<Kommune> kommuner = kommuneRepository.findByNavnContaining(navn);
+        List<Kommune> kommuner = apiServiceGetKommuner.findByNavn(navn);
 
         if (kommuner.isEmpty()){
             throw new InternalServerError("No matches for kommuner with the entered value: " + navn);
@@ -51,13 +49,17 @@ public class KommuneRestController {
     }
 
     //-----------------------------------------------------------------------------------------------------DELETE MAPPING-------------------------------------------------------------------------------------------------//
-    @PutMapping("/kommune/{id}")
-    public Kommune updateKommune(@PathVariable String id, @RequestBody Kommune updatedKommune) {
-        Kommune existingKommune = kommuneRepository.findById(id).orElseGet(() -> {
-            throw new EntityNotFoundException("Kommune with ID " + id + " not found");
-        });
 
-        return kommuneRepository.save(existingKommune);
+    @DeleteMapping("/kommune/{kode}/slet")
+    public ResponseEntity<String> deleteKommuneByKode(@PathVariable String kode){
+        Kommune kommune = apiServiceGetKommuner.findByKode(kode);
+
+        if (kommune == null){
+            throw new InternalServerError("No kommune with the desired kode or name exists");
+        }
+
+        apiServiceGetKommuner.delete(kommune);
+        return ResponseEntity.ok("Kommune med koden: " + kode + " was deleted successfully");
     }
 
     //-----------------------------------------------------------------------------------------------------POST MAPPING-------------------------------------------------------------------------------------------------//
@@ -65,7 +67,7 @@ public class KommuneRestController {
     public Kommune postKommune(@RequestBody Kommune kommune) {
 
         System.out.println(kommune);
-        return kommuneRepository.save(kommune);
+        return apiServiceGetKommuner.save(kommune);
     }
 
 }

@@ -7,4 +7,10 @@ import java.util.List;
 public interface ApiServiceGetKommuner {
 
     List<Kommune> getKommuner();
+
+    List<Kommune> findByKode(String kode);
+
+    List<Kommune> findByNavn(String navn);
+
+
 }
