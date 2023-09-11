@@ -39,4 +39,40 @@ public class ApiServiceGetKommunerimpl implements ApiServiceGetKommuner {
         saveKommuner(kommuner);
         return kommuner;
     }
+
+    @Override
+    public List<Kommune> findUsingKodeAsList(String kode) {
+        List<Kommune> kommuneList = kommuneRepository.findUsingKodeAsList(kode);
+        return kommuneList;
+    }
+
+    @Override
+    public List<Kommune> findUsingNavnAsList(String navn) {
+        List<Kommune> kommuneList = kommuneRepository.findUsingNavnAsList(navn);
+        return kommuneList;
+    }
+
+    @Override
+    public Kommune findUsingKodeAsInstance(String kode) {
+        Kommune kommune = kommuneRepository.findUsingKodeAsInstance(kode);
+        return kommune;
+    }
+
+    @Override
+    public Kommune findUsingNavnAsInstance(String navn) {
+        Kommune kommune = kommuneRepository.findUsingNavnAsInstance(navn);
+        return kommune;
+    }
+
+    @Override
+    public Kommune save(Kommune kommune) {
+        kommuneRepository.save(kommune);
+        return kommune;
+    }
+
+    @Override
+    public Kommune delete(Kommune kommune) {
+        kommuneRepository.delete(kommune);
+        return kommune;
+    }
 }

@@ -8,9 +8,19 @@ public interface ApiServiceGetKommuner {
 
     List<Kommune> getKommuner();
 
-    List<Kommune> findByKode(String kode);
+    List<Kommune> findUsingKodeAsList(String kode);
 
-    List<Kommune> findByNavn(String navn);
+    List<Kommune> findUsingNavnAsList(String navn);
+
+
+
+    Kommune findUsingKodeAsInstance(String kode);
+
+    Kommune findUsingNavnAsInstance(String navn);
+
+    Kommune save (Kommune kommune);
+
+    Kommune delete(Kommune kommune);
 
 
 }

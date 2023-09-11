@@ -2,7 +2,6 @@ package com.example.jpamanytoone.service;
 
 import com.example.jpamanytoone.model.Kommune;
 import com.example.jpamanytoone.model.Region;
-import com.example.jpamanytoone.repository.KommuneRepository;
 import com.example.jpamanytoone.repository.RegionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -57,8 +56,8 @@ public class ApiServiceGetRegionerImpl implements ApiServiceGetRegioner {
     }
 
     @Override
-    public List<Region> searchRegionByKode(String kode) {
-        List<Region> regions = regionRepository.getRegionsByKode(kode);
+    public List<Region> findUsingKodeAsList(String kode) {
+        List<Region> regions = regionRepository.findUsingKodeAsList(kode);
         return regions;
     }
 
@@ -69,13 +68,13 @@ public class ApiServiceGetRegionerImpl implements ApiServiceGetRegioner {
     }
 
     @Override
-    public List<Region> getRegionsByName(String navn) {
-        List<Region> regionList = regionRepository.getRegionsByName(navn);
+    public List<Region> findUsingNavnAsList(String navn) {
+        List<Region> regionList = regionRepository.findRegionAsList(navn);
         return regionList;
     }
 
     @Override
-    public Region findByKode(String kode) {
+    public Region findUsingkodeAsInstance(String kode) {
         Region region = regionRepository.findByKode(kode);
         return region;
     }
@@ -87,7 +86,7 @@ public class ApiServiceGetRegionerImpl implements ApiServiceGetRegioner {
     }
 
     @Override
-    public Region findByNavn(String navn) {
+    public Region findUsingNavnAsInstance(String navn) {
         Region region = regionRepository.findByNavn(navn);
         return region;
     }

@@ -1,26 +1,27 @@
 package com.example.jpamanytoone.service;
 
-import com.example.jpamanytoone.model.Kommune;
 import com.example.jpamanytoone.model.Region;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
 public interface ApiServiceGetRegioner {
 
+    //---------------------------------LIST-------------------------//
     List<Region> getRegioner();
+
+    List<Region> findUsingKodeAsList(String kode);
+
+    List<Region> findUsingNavnAsList(String navn);
 
     List<String> findKommuner (String id);
 
-    List<Region> searchRegionByKode(String kode);
+    //---------------------------------INSTANCE-------------------------//
 
-    List<Region> getRegionsByName(String navn);
+    Region findUsingNavnAsInstance(String navn);
+
+    Region findUsingkodeAsInstance(String kode);
 
     Region save(Region region);
 
-    Region findByKode(String kode);
-
     Region delete(Region region);
-
-    Region findByNavn(String navn);
 }

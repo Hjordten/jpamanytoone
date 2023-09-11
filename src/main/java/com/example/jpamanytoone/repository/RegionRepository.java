@@ -9,10 +9,12 @@ import java.util.List;
 
 public interface RegionRepository extends JpaRepository<Region, String> {
 
-    List<Region> getRegionsByKode (String kode);
+    @Query("SELECT r FROM Region r WHERE r.kode = :kode")
+    List<Region> findUsingKodeAsList(@Param("kode") String kode);
+
 
     @Query("SELECT p FROM Region p WHERE p.navn LIKE CONCAT('%', :query, '%')")
-    List<Region> getRegionsByName(String query);
+    List<Region> findRegionAsList(String query);
 
     Region findByKode(String kode);
 
