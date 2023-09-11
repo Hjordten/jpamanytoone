@@ -82,7 +82,7 @@ public class KommuneRestController {
             throw new InternalServerError("Kommune with desired name does not exists");
         }
 
-        existingKommune.setNavn(navn);
+        existingKommune.setNavn(updatedKommune.getNavn());
         existingKommune.setHref(updatedKommune.getHref());
         existingKommune.setKode(updatedKommune.getKode());
 
@@ -101,7 +101,7 @@ public class KommuneRestController {
 
         existingKommune.setNavn(updatedKommune.getNavn());
         existingKommune.setHref(updatedKommune.getHref());
-        existingKommune.setKode(kode);
+        existingKommune.setKode(updatedKommune.getKode());
 
         apiServiceGetKommuner.save(updatedKommune);
 
