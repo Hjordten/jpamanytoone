@@ -75,7 +75,7 @@ public class KommuneRestController {
     //-----------------------------------------------------------------------------------------------------PUT MAPPING-------------------------------------------------------------------------------------------------//
 
     @PutMapping("/kommune/opdatermednavn/{navn}")
-    public ResponseEntity<Kommune> updateKommuneUsingNavn(@PathVariable String navn, @RequestBody Kommune updatedKommune){
+    public ResponseEntity<String> updateKommuneUsingNavn(@PathVariable String navn, @RequestBody Kommune updatedKommune){
         Kommune existingKommune = apiServiceGetKommuner.findUsingNavnAsInstance(navn);
 
         if (existingKommune == null){
@@ -88,7 +88,7 @@ public class KommuneRestController {
 
         apiServiceGetKommuner.save(updatedKommune);
 
-        return ResponseEntity.ok(updatedKommune);
+        return ResponseEntity.ok("Database entry successfully updated");
     }
 
     @PutMapping("/kommune/opdatermedkode/{kode}")
@@ -105,7 +105,7 @@ public class KommuneRestController {
 
         apiServiceGetKommuner.save(updatedKommune);
 
-        return ResponseEntity.ok("Database entry succesfully updated");
+        return ResponseEntity.ok("Database entry successfully updated");
 
 
     }
